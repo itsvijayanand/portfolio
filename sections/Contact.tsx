@@ -97,13 +97,36 @@ export default function Contact() {
 
     setIsSubmitting(true);
 
-    // Mock API call submit delay
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSuccess(true);
-      setFormData({ name: "", email: "", message: "" });
-      setTimeout(() => setIsSuccess(false), 5000);
-    }, 1500);
+    fetch(`https://formsubmit.co/ajax/${portfolioData.contact.email}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      },
+      body: JSON.stringify({
+        name: formData.name,
+        email: formData.email,
+        message: formData.message,
+        _subject: `Portfolio Inquiry from ${formData.name}`,
+        _template: "box",
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setIsSubmitting(false);
+        if (data.success === "true" || data.success === true) {
+          setIsSuccess(true);
+          setFormData({ name: "", email: "", message: "" });
+          setTimeout(() => setIsSuccess(false), 5000);
+        } else {
+          alert("Something went wrong. Please try again.");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        setIsSubmitting(false);
+        alert("Failed to send inquiry. Please try again later.");
+      });
   };
 
   return (
