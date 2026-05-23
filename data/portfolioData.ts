@@ -328,7 +328,7 @@ export const portfolioData: PortfolioData = {
       quote: "The UI was highly professional, intuitive, and user-friendly. From appointment flows to dashboard organization, everything was designed with clarity and accessibility in mind. The final result looked polished and production-ready."
     },
     {
-      name: "Glowvyn Client Feedback",
+      name: "Esron Patra",
       role: "Client Partner",
       company: "Glowvyn Skincare Co.",
       avatar: "https://images.unsplash.com/photo-1554151228-14d9def656e4?auto=format&fit=crop&q=80&w=200",
