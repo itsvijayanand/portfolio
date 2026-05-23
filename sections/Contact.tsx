@@ -6,48 +6,20 @@ import { Send, CheckCircle2, AlertCircle, ArrowUpRight } from "lucide-react";
 import { portfolioData } from "@/data/portfolioData";
 import MagneticButton from "@/components/MagneticButton";
 
-// Stylized Vector QR Code for high-fidelity offline graphics
-const MockQRCode = () => {
-  return (
-    <svg className="w-24 h-24 text-stone-900" viewBox="0 0 100 100" fill="currentColor">
-      {/* Corner Finders */}
-      {/* Top Left */}
-      <rect x="5" y="5" width="25" height="25" rx="2" />
-      <rect x="10" y="10" width="15" height="15" fill="#e5e5e5" rx="1" />
-      <rect x="14" y="14" width="7" height="7" rx="1" />
-      {/* Top Right */}
-      <rect x="70" y="5" width="25" height="25" rx="2" />
-      <rect x="75" y="10" width="15" height="15" fill="#e5e5e5" rx="1" />
-      <rect x="79" y="14" width="7" height="7" rx="1" />
-      {/* Bottom Left */}
-      <rect x="5" y="70" width="25" height="25" rx="2" />
-      <rect x="10" y="75" width="15" height="15" fill="#e5e5e5" rx="1" />
-      <rect x="14" y="79" width="7" height="7" rx="1" />
-      
-      {/* Random mock QR pixels/blocks */}
-      <rect x="35" y="5" width="6" height="6" />
-      <rect x="45" y="10" width="6" height="12" />
-      <rect x="55" y="5" width="10" height="6" />
-      <rect x="35" y="20" width="12" height="6" />
-      
-      <rect x="70" y="35" width="6" height="12" />
-      <rect x="82" y="40" width="12" height="6" />
-      <rect x="75" y="52" width="6" height="6" />
-      <rect x="88" y="52" width="6" height="12" />
+import QRCode from "react-qr-code";
 
-      <rect x="35" y="70" width="12" height="6" />
-      <rect x="52" y="70" width="6" height="12" />
-      <rect x="40" y="82" width="18" height="6" />
-      
-      <rect x="70" y="70" width="6" height="6" />
-      <rect x="82" y="70" width="12" height="12" />
-      <rect x="75" y="88" width="18" height="6" />
-
-      {/* Center Mustard Yellow Accent module */}
-      <rect x="44" y="44" width="12" height="12" fill="#f4b223" rx="2" />
-      <circle cx="50" cy="50" r="3" fill="#1c1917" />
-    </svg>
-  );
+// Generate vCard data dynamically
+const generateVCard = () => {
+  const vCard = `BEGIN:VCARD
+VERSION:3.0
+N:${portfolioData.name.split(" ").pop()};${portfolioData.name.split(" ")[0]};;;
+FN:${portfolioData.name}
+TITLE:${portfolioData.roleTitle}
+EMAIL;type=INTERNET;type=WORK:${portfolioData.contact.email}
+TEL;type=CELL:${portfolioData.contact.phone}
+URL:${portfolioData.contact.socials.find(s => s.platform === "LinkedIn")?.url || ""}
+END:VCARD`;
+  return vCard;
 };
 
 export default function Contact() {
@@ -265,8 +237,16 @@ export default function Contact() {
             
             {/* Elegant QR Card */}
             <div className="bg-[#e5e5e5] border-2 border-stone-300 rounded-[2.5rem] p-8 flex items-center gap-6 shadow-sm">
-              <div className="p-3 bg-stone-200 border-2 border-stone-900 rounded-3xl flex-shrink-0">
-                <MockQRCode />
+              <div className="p-3 bg-stone-200 border-2 border-stone-900 rounded-3xl flex-shrink-0 flex items-center justify-center">
+                <div className="bg-transparent p-1 rounded-2xl">
+                  <QRCode
+                    value={generateVCard()}
+                    size={88}
+                    bgColor="transparent"
+                    fgColor="#1c1917"
+                    level="L"
+                  />
+                </div>
               </div>
               <div className="font-mono">
                 <h4 className="text-base font-bold text-stone-950 uppercase tracking-wider mb-1">
